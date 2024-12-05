@@ -1,48 +1,72 @@
-import React, { useState } from "react";
-import { BsCheckCircleFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
-import { logoLight } from "../../assets/images";
+import React, { useState } from "react"
+import { BsCheckCircleFill } from "react-icons/bs"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { logoLight } from "../../assets/images"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth, db } from "../../firebase/firebase.config"
+import { getDoc, doc } from "firebase/firestore"
 
 const SignIn = () => {
-  // ============= Initial State Start here =============
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [user, setUser] = useState(null)
   // ============= Initial State End here ===============
   // ============= Error Msg Start here =================
-  const [errEmail, setErrEmail] = useState("");
-  const [errPassword, setErrPassword] = useState("");
+  const [errEmail, setErrEmail] = useState("")
+  const [errPassword, setErrPassword] = useState("")
 
   // ============= Error Msg End here ===================
-  const [successMsg, setSuccessMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("")
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || "/shop"
   // ============= Event Handler Start here =============
   const handleEmail = (e) => {
-    setEmail(e.target.value);
-    setErrEmail("");
-  };
+    setEmail(e.target.value)
+    setErrEmail("")
+  }
   const handlePassword = (e) => {
-    setPassword(e.target.value);
-    setErrPassword("");
-  };
+    setPassword(e.target.value)
+    setErrPassword("")
+  }
   // ============= Event Handler End here ===============
-  const handleSignUp = (e) => {
-    e.preventDefault();
 
-    if (!email) {
-      setErrEmail("Enter your email");
-    }
+  const handleSignIn = async (e) => {
+    e.preventDefault()
 
-    if (!password) {
-      setErrPassword("Create a password");
+    try {
+      if (email && password) {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        )
+
+        // Ambil data pengguna dari Firestore
+        const userDoc = await getDoc(doc(db, "users", userCredential.user.uid))
+        const userData = userDoc.data()
+
+        // Simpan data pengguna di state
+        setUser({
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+          name: userData.name,
+          username: userData.username,
+        })
+
+        setSuccessMsg(`Welcome back ${userData.name}!`)
+        setEmail("")
+        setPassword("")
+        setTimeout(() => {
+          navigate(from, { replace: true })
+        }, 2000)
+      }
+    } catch (error) {
+      console.error("Error signing in:", error)
+      setErrEmail(error.message)
     }
-    // ============== Getting the value ==============
-    if (email && password) {
-      setSuccessMsg(
-        `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-      );
-      setEmail("");
-      setPassword("");
-    }
-  };
+  }
+
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <div className="w-1/2 hidden lgl:inline-flex h-full text-white">
@@ -62,7 +86,7 @@ const SignIn = () => {
             </span>
             <p className="text-base text-gray-300">
               <span className="text-white font-semibold font-titleFont">
-                Get started fast with OREBI
+                Get started fast with Huuya
               </span>
               <br />
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
@@ -75,20 +99,7 @@ const SignIn = () => {
             </span>
             <p className="text-base text-gray-300">
               <span className="text-white font-semibold font-titleFont">
-                Access all OREBI services
-              </span>
-              <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
-            </p>
-          </div>
-          <div className="w-[300px] flex items-start gap-3">
-            <span className="text-green-500 mt-1">
-              <BsCheckCircleFill />
-            </span>
-            <p className="text-base text-gray-300">
-              <span className="text-white font-semibold font-titleFont">
-                Trusted by online Shoppers
+                Access all Huuya services
               </span>
               <br />
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
@@ -98,7 +109,7 @@ const SignIn = () => {
           <div className="flex items-center justify-between mt-10">
             <Link to="/">
               <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
-                © OREBI
+                © Huuya
               </p>
             </Link>
             <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
@@ -176,7 +187,7 @@ const SignIn = () => {
                 </div>
 
                 <button
-                  onClick={handleSignUp}
+                  onClick={handleSignIn}
                   className="bg-primeColor hover:bg-black text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md  duration-300"
                 >
                   Sign In
@@ -195,7 +206,7 @@ const SignIn = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignIn;
+export default SignIn

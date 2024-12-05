@@ -1,42 +1,52 @@
-import React, { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
-import { HiOutlineMenuAlt4 } from "react-icons/hi";
-import { FaSearch, FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
-import Flex from "../../designLayouts/Flex";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { paginationItems } from "../../../constants";
+import React, { useState, useRef, useEffect } from "react"
+import { motion } from "framer-motion"
+import { HiOutlineMenuAlt4 } from "react-icons/hi"
+import { FaSearch, FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa"
+import Flex from "../../designLayouts/Flex"
+import { Link, useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { paginationItems } from "../../../constants"
+import { useAuth } from "../../../context/AuthContext"
 
 const HeaderBottom = () => {
-  const products = useSelector((state) => state.orebiReducer.products);
-  const [show, setShow] = useState(false);
-  const [showUser, setShowUser] = useState(false);
-  const navigate = useNavigate();
-  const ref = useRef();
-  useEffect(() => {
-    document.body.addEventListener("click", (e) => {
-      if (ref.current.contains(e.target)) {
-        setShow(true);
-      } else {
-        setShow(false);
-      }
-    });
-  }, [show, ref]);
+  const products = useSelector((state) => state.orebiReducer.products)
+  const [show, setShow] = useState(false)
+  const [showUser, setShowUser] = useState(false)
+  const navigate = useNavigate()
+  const ref = useRef()
+  const { user } = useAuth()
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [showSearchBar, setShowSearchBar] = useState(false);
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (ref.current && ref.current.contains(e.target)) {
+        setShow(true)
+      } else {
+        setShow(false)
+      }
+    }
+
+    document.body.addEventListener("click", handleClick)
+
+    // Cleanup listener on unmount
+    return () => {
+      document.body.removeEventListener("click", handleClick)
+    }
+  }, [])
+
+  const [searchQuery, setSearchQuery] = useState("")
+  const [filteredProducts, setFilteredProducts] = useState([])
+  const [showSearchBar, setShowSearchBar] = useState(false)
 
   const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
+    setSearchQuery(e.target.value)
+  }
 
   useEffect(() => {
     const filtered = paginationItems.filter((item) =>
       item.productName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-  }, [searchQuery]);
+    )
+    setFilteredProducts(filtered)
+  }, [searchQuery])
 
   return (
     <div className="w-full bg-[#F5F5F3] relative">
@@ -133,6 +143,9 @@ const HeaderBottom = () => {
           <div className="flex gap-4 mt-2 lg:mt-0 items-center pr-6 cursor-pointer relative">
             <div onClick={() => setShowUser(!showUser)} className="flex">
               <FaUser />
+              {user && (
+                <span className="text-sm font-medium">{user.username}</span>
+              )}
               <FaCaretDown />
             </div>
             {showUser && (
@@ -142,24 +155,41 @@ const HeaderBottom = () => {
                 transition={{ duration: 0.5 }}
                 className="absolute top-6 left-0 z-50 bg-primeColor w-44 text-[#767676] h-auto p-4 pb-6"
               >
-                <Link to="/signin">
-                  <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                    Login
-                  </li>
-                </Link>
-                <Link onClick={() => setShowUser(false)} to="/signup">
-                  <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                    Sign Up
-                  </li>
-                </Link>
-                <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                  Profile
-                </li>
-                <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400  hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                  Others
-                </li>
+                {user ? (
+                  <>
+                    <Link to="/profile">
+                      <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
+                        Profile
+                      </li>
+                    </Link>
+                    <li
+                      className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer"
+                      onClick={() => {
+                        useAuth.signOut()
+                        setShowUser(false)
+                      }}
+                    >
+                      Sign Out
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/signin">
+                      <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
+                        Sign In
+                      </li>
+                    </Link>
+                    <Link to="/signup">
+                      <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
+                        Sign Up
+                      </li>
+                    </Link>
+                  </>
+                )}
               </motion.ul>
             )}
+
+            {/* Cart section */}
             <Link to="/cart">
               <div className="relative">
                 <FaShoppingCart />
@@ -172,7 +202,6 @@ const HeaderBottom = () => {
         </Flex>
       </div>
     </div>
-  );
-};
-
-export default HeaderBottom;
+  )
+}
+export default HeaderBottom
