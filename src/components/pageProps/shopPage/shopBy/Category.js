@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 // import { FaPlus } from "react-icons/fa";
-import { ImPlus } from "react-icons/im";
-import NavTitle from "./NavTitle";
+import { ImPlus } from "react-icons/im"
+import NavTitle from "./NavTitle"
 
 const Category = () => {
-  const [showSubCatOne, setShowSubCatOne] = useState(false);
+  const [showSubCatOne, setShowSubCatOne] = useState(false)
   const items = [
     {
       _id: 990,
@@ -28,7 +28,7 @@ const Category = () => {
       _id: 994,
       title: "Others",
     },
-  ];
+  ]
   return (
     <div className="w-full">
       <NavTitle title="Shop by Category" icons={false} />
@@ -53,7 +53,7 @@ const Category = () => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Category;
+export default Category

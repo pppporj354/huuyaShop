@@ -1,30 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import { MdClose } from "react-icons/md";
-import { HiMenuAlt2 } from "react-icons/hi";
-import { motion } from "framer-motion";
-import { logo, logoLight } from "../../../assets/images";
-import Image from "../../designLayouts/Image";
-import { navBarList } from "../../../constants";
-import Flex from "../../designLayouts/Flex";
+import React, { useEffect, useState } from "react"
+import { Link, NavLink, useLocation } from "react-router-dom"
+import { MdClose } from "react-icons/md"
+import { HiMenuAlt2 } from "react-icons/hi"
+import { motion } from "framer-motion"
+import { logo, logoLight } from "../../../assets/images"
+import Image from "../../designLayouts/Image"
+import { navBarList } from "../../../constants"
+import Flex from "../../designLayouts/Flex"
 
 const Header = () => {
-  const [showMenu, setShowMenu] = useState(true);
-  const [sidenav, setSidenav] = useState(false);
-  const [category, setCategory] = useState(false);
-  const [brand, setBrand] = useState(false);
-  const location = useLocation();
+  const [showMenu, setShowMenu] = useState(true)
+  const [sidenav, setSidenav] = useState(false)
+  const [category, setCategory] = useState(false)
+  const [brand, setBrand] = useState(false)
+  const location = useLocation()
+
   useEffect(() => {
     let ResponsiveMenu = () => {
       if (window.innerWidth < 667) {
-        setShowMenu(false);
+        setShowMenu(false)
       } else {
-        setShowMenu(true);
+        setShowMenu(true)
       }
-    };
-    ResponsiveMenu();
-    window.addEventListener("resize", ResponsiveMenu);
-  }, []);
+    }
+    ResponsiveMenu()
+    window.addEventListener("resize", ResponsiveMenu)
+  }, [])
 
   return (
     <div className="w-full h-20 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
@@ -91,29 +92,33 @@ const Header = () => {
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-4">
-                      <h1
-                        onClick={() => setCategory(!category)}
-                        className="flex justify-between text-base cursor-pointer items-center font-titleFont mb-2"
-                      >
-                        Shop by Category{" "}
-                        <span className="text-lg">{category ? "-" : "+"}</span>
-                      </h1>
-                      {category && (
-                        <motion.ul
-                          initial={{ y: 15, opacity: 0 }}
-                          animate={{ y: 0, opacity: 1 }}
-                          transition={{ duration: 0.4 }}
-                          className="text-sm flex flex-col gap-1"
+                    {location.pathname !== "/profile" && (
+                      <div className="mt-4">
+                        <h1
+                          onClick={() => setCategory(!category)}
+                          className="flex justify-between text-base cursor-pointer items-center font-titleFont mb-2"
                         >
-                          <li className="headerSedenavLi">New Arrivals</li>
-                          <li className="headerSedenavLi">Gudgets</li>
-                          <li className="headerSedenavLi">Accessories</li>
-                          <li className="headerSedenavLi">Electronics</li>
-                          <li className="headerSedenavLi">Others</li>
-                        </motion.ul>
-                      )}
-                    </div>
+                          Shop by Category{" "}
+                          <span className="text-lg">
+                            {category ? "-" : "+"}
+                          </span>
+                        </h1>
+                        {category && (
+                          <motion.ul
+                            initial={{ y: 15, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.4 }}
+                            className="text-sm flex flex-col gap-1"
+                          >
+                            <li className="headerSedenavLi">New Arrivals</li>
+                            <li className="headerSedenavLi">Gudgets</li>
+                            <li className="headerSedenavLi">Accessories</li>
+                            <li className="headerSedenavLi">Electronics</li>
+                            <li className="headerSedenavLi">Others</li>
+                          </motion.ul>
+                        )}
+                      </div>
+                    )}
                     <div className="mt-4">
                       <h1
                         onClick={() => setBrand(!brand)}
@@ -151,7 +156,7 @@ const Header = () => {
         </Flex>
       </nav>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

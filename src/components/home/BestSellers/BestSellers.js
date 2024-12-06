@@ -1,12 +1,12 @@
-import React from "react";
-import Heading from "../Products/Heading";
-import Product from "../Products/Product";
+import React from "react"
+import Heading from "../Products/Heading"
+import Product from "../Products/Product"
 import {
   bestSellerOne,
   bestSellerTwo,
   bestSellerThree,
   bestSellerFour,
-} from "../../../assets/images/index";
+} from "../../../assets/images/index"
 
 const BestSellers = () => {
   return (
@@ -51,7 +51,7 @@ const BestSellers = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BestSellers;
+export default BestSellers

@@ -1,15 +1,11 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Slider from "react-slick";
-import {
-  bannerImgOne,
-  bannerImgTwo,
-  bannerImgThree,
-} from "../../assets/images";
-import Image from "../designLayouts/Image";
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
+import Slider from "react-slick"
+import { bannerImgOne, bannerImgTwo, bannerImgThree } from "../../assets/images"
+import Image from "../designLayouts/Image"
 
 const Banner = () => {
-  const [dotActive, setDocActive] = useState(0);
+  const [dotActive, setDocActive] = useState(0)
   const settings = {
     dots: true,
     infinite: true,
@@ -18,7 +14,7 @@ const Banner = () => {
     slidesToScroll: 1,
     arrows: false,
     beforeChange: (prev, next) => {
-      setDocActive(next);
+      setDocActive(next)
     },
     appendDots: (dots) => (
       <div
@@ -98,13 +94,18 @@ const Banner = () => {
         },
       },
     ],
-  };
+  }
   return (
     <div className="w-full bg-white">
       <Slider {...settings}>
         <Link to="/offer">
           <div>
-            <Image imgSrc={bannerImgOne} />
+            <Image
+              loading="eager"
+              priority={true}
+              className="w-full"
+              imgSrc={bannerImgOne}
+            />
           </div>
         </Link>
         <Link to="/offer">
@@ -119,7 +120,7 @@ const Banner = () => {
         </Link>
       </Slider>
     </div>
-  );
-};
+  )
+}
 
-export default Banner;
+export default Banner

@@ -1,7 +1,8 @@
-import React from "react";
+import React from "react"
+
+// src/components/designLayouts/Image.js
 
 const Image = ({ imgSrc, className }) => {
-  return <img className={className} src={imgSrc} alt={imgSrc} />;
-};
-
-export default Image;
+  return <img loading="lazy" className={className} src={imgSrc} alt={imgSrc} />
+}
+export default Image

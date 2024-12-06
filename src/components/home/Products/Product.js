@@ -1,36 +1,41 @@
-import React from "react";
-import { BsSuitHeartFill } from "react-icons/bs";
-import { GiReturnArrow } from "react-icons/gi";
-import { FaShoppingCart } from "react-icons/fa";
-import { MdOutlineLabelImportant } from "react-icons/md";
-import Image from "../../designLayouts/Image";
-import Badge from "./Badge";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../../redux/orebiSlice";
+import React from "react"
+import { BsSuitHeartFill } from "react-icons/bs"
+import { GiReturnArrow } from "react-icons/gi"
+import { FaShoppingCart } from "react-icons/fa"
+import { MdOutlineLabelImportant } from "react-icons/md"
+import Image from "../../designLayouts/Image"
+import Badge from "./Badge"
+import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { addToCart } from "../../../redux/orebiSlice"
 
 const Product = (props) => {
-  const dispatch = useDispatch();
-  const _id = props.productName;
+  const dispatch = useDispatch()
+  const _id = props.productName
   const idString = (_id) => {
-    return String(_id).toLowerCase().split(" ").join("");
-  };
-  const rootId = idString(_id);
+    return String(_id).toLowerCase().split(" ").join("")
+  }
+  const rootId = idString(_id)
 
-  const navigate = useNavigate();
-  const productItem = props;
+  const navigate = useNavigate()
+  const productItem = props
   const handleProductDetails = () => {
     navigate(`/product/${rootId}`, {
       state: {
         item: productItem,
       },
-    });
-  };
+    })
+  }
   return (
     <div className="w-full relative group">
       <div className="max-w-80 max-h-80 relative overflow-y-hidden ">
         <div>
-          <Image className="w-full h-full" imgSrc={props.img} />
+          <Image
+            width={320}
+            height={320}
+            className="w-full h-full"
+            imgSrc={props.img}
+          />
         </div>
         <div className="absolute top-6 left-8">
           {props.badge && <Badge text="New" />}
@@ -94,7 +99,7 @@ const Product = (props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Product;
+export default Product

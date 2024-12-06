@@ -11,7 +11,7 @@ import {
   newArrTwo,
   newArrThree,
   newArrFour,
-} from "../assets/images/index";
+} from "../assets/images/index"
 
 // =================== NavBarList Start here ====================
 export const navBarList = [
@@ -35,12 +35,7 @@ export const navBarList = [
     title: "Contact",
     link: "contact",
   },
-  {
-    _id: 1005,
-    title: "Journal",
-    link: "/journal",
-  },
-];
+]
 // =================== NavBarList End here ======================
 // =================== Special Offer data Start here ============
 export const SplOfferData = [
@@ -80,7 +75,7 @@ export const SplOfferData = [
     badge: true,
     des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
   },
-];
+]
 // =================== Special Offer data End here ==============
 
 // =================== PaginationItems Start here ===============
@@ -501,5 +496,5 @@ export const paginationItems = [
     badge: true,
     des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
   },
-];
+]
 // =================== PaginationItems End here =================

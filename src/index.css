@@ -31,4 +31,20 @@ nav .active li {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-/* ============= NavLink active End here ================ */
+
+.image-blur-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.image-blur {
+  filter: blur(20px);
+  transform: scale(1.1);
+  transition: visibility 0ms ease 400ms;
+}
+
+.image-blur-loaded {
+  filter: blur(0px);
+  transform: scale(1);
+  transition: filter 400ms ease 0ms;
+}

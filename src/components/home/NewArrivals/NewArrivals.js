@@ -1,15 +1,15 @@
-import React from "react";
-import Slider from "react-slick";
-import Heading from "../Products/Heading";
-import Product from "../Products/Product";
+import React from "react"
+import Slider from "react-slick"
+import Heading from "../Products/Heading"
+import Product from "../Products/Product"
 import {
   newArrOne,
   newArrTwo,
   newArrThree,
   newArrFour,
-} from "../../../assets/images/index";
-import SampleNextArrow from "./SampleNextArrow";
-import SamplePrevArrow from "./SamplePrevArrow";
+} from "../../../assets/images/index"
+import SampleNextArrow from "./SampleNextArrow"
+import SamplePrevArrow from "./SamplePrevArrow"
 
 const NewArrivals = () => {
   const settings = {
@@ -45,7 +45,7 @@ const NewArrivals = () => {
         },
       },
     ],
-  };
+  }
   return (
     <div className="w-full pb-16">
       <Heading heading="New Arrivals" />
@@ -107,7 +107,7 @@ const NewArrivals = () => {
         </div>
       </Slider>
     </div>
-  );
-};
+  )
+}
 
-export default NewArrivals;
+export default NewArrivals
